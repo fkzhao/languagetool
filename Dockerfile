@@ -9,4 +9,4 @@ mkdir -p /app
 WORKDIR /app
 COPY languagetool-server/target/*.jar /app/languagetool-server.jar
 EXPOSE 8081
-ENTRYPOINT ["java", "-jar","languagetool-server.jar"]
+ENTRYPOINT ["java", "-jar","languagetool-server.jar", "--public", "--allow-origin *"]
