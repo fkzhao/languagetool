@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 /**
  * Information about an error rule that matches text and the position of the match.
  * See {@link org.languagetool.tools.ContextTools} for displaying errors in their original text context.
- * 
+ *
  * @author Daniel Naber
  */
 public class RuleMatch implements Comparable<RuleMatch> {
@@ -406,6 +406,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public void setMessage(String msg) {
     message = msg;
   }
+
   /**
    * A shorter human-readable explanation describing the error or an empty string
    * if no such explanation is available.
@@ -455,7 +456,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public List<String> getSuggestedReplacements() {
     return Collections.unmodifiableList(
-      suggestedReplacements.get().stream().map(SuggestedReplacement::getReplacement).collect(Collectors.toList())
+      suggestedReplacements.get().stream().limit(1).map(SuggestedReplacement::getReplacement).collect(Collectors.toList())
     );
   }
 
@@ -466,7 +467,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     Objects.requireNonNull(replacements, "replacements may be empty but not null");
     suggestionsComputed = true;
     suggestedReplacements = Suppliers.ofInstance(
-      replacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
+      replacements.stream().limit(1).map(SuggestedReplacement::new).collect(Collectors.toList())
     );
   }
 
@@ -501,7 +502,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * Used in server use case (i.e. {@code org.languagetool.server.TextChecker})
    */
   public void computeLazySuggestedReplacements() {
-    suggestedReplacements = Suppliers.ofInstance(suggestedReplacements.get());
+    suggestedReplacements = Suppliers.ofInstance(Collections.singletonList(suggestedReplacements.get().get(0)));
     suggestionsComputed = true;
   }
 
@@ -707,14 +708,14 @@ public class RuleMatch implements Comparable<RuleMatch> {
     // use the positions in the sentence if available
     int fromPos = this.getFromPosSentence();
     int toPos = this.getToPosSentence();
-    if (fromPos > -1 && toPos > -1 && toPos<=sentenceStr.length() && fromPos<toPos) {
+    if (fromPos > -1 && toPos > -1 && toPos <= sentenceStr.length() && fromPos < toPos) {
       this.originalErrorStr = sentenceStr.substring(fromPos, toPos);
       return;
     }
     // otherwise use the positions before the offsetPosition is adjusted to the whole text
     fromPos = this.getFromPos();
     toPos = this.getToPos();
-    if (fromPos > -1 && toPos > -1 && toPos<=sentenceStr.length() && fromPos<toPos) {
+    if (fromPos > -1 && toPos > -1 && toPos <= sentenceStr.length() && fromPos < toPos) {
       this.originalErrorStr = sentenceStr.substring(fromPos, toPos);
     }
   }
@@ -731,6 +732,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * Only available for sentence-level pattern rules.
    * Returns an empty string if not available.
    * For other rules, use setOriginalErrorStr(String originalErrorStr)
+   *
    * @since 6.3
    */
   public String getOriginalErrorStr() {
