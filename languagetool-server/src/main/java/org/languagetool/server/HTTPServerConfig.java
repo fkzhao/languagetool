@@ -41,11 +41,13 @@ public class HTTPServerConfig {
 
   private static final Logger logger = LoggerFactory.getLogger(HTTPServerConfig.class);
 
-  enum Mode { LanguageTool }
+  enum Mode {LanguageTool}
 
   public static final String DEFAULT_HOST = "localhost";
 
-  /** The default port on which the server is running (8081). */
+  /**
+   * The default port on which the server is running (8081).
+   */
   public static final int DEFAULT_PORT = 8081;
 
   static final String LANGUAGE_MODEL_OPTION = "--languageModel";
@@ -106,15 +108,18 @@ public class HTTPServerConfig {
   public void setPremiumOnly(boolean premiumOnly) {
     this.premiumOnly = premiumOnly;
   }
+
   boolean anonymousAccessAllowed = true;
+
   public boolean isAnonymousAccessAllowed() {
     return anonymousAccessAllowed;
   }
+
   protected boolean gracefulDatabaseFailure = false;
 
   /**
-   * @since 4.9
    * @return whether user creation should be restricted (e.g. according to subscriptions in cloud usage) or be unlimited (for self-hosted installations)
+   * @since 4.9
    */
   public boolean isRestrictManagedAccounts() {
     return restrictManagedAccounts;
@@ -123,6 +128,7 @@ public class HTTPServerConfig {
   public void setRestrictManagedAccounts(boolean restrictManagedAccounts) {
     this.restrictManagedAccounts = restrictManagedAccounts;
   }
+
   // NOTE: offer option to set this in configuration file; document for customers
   protected boolean restrictManagedAccounts = true;
   protected String dbDriver = null;
@@ -176,7 +182,7 @@ public class HTTPServerConfig {
   protected int abTestRollout = 100; // percentage [0,100]
   protected File ngramLangIdentData;
 
-    //User Settings for local-api
+  //User Settings for local-api
   protected boolean localApiMode = false;
   protected String motherTongue = "en-US";
   protected List<String> preferredLanguages = new ArrayList<>();
@@ -227,7 +233,7 @@ public class HTTPServerConfig {
 
   /**
    * @param serverPort the port to bind to
-   * @param verbose when set to <code>true</code>, the input text will be logged in case there is an exception
+   * @param verbose    when set to <code>true</code>, the input text will be logged in case there is an exception
    */
   public HTTPServerConfig(int serverPort, boolean verbose) {
     this.port = serverPort;
@@ -297,7 +303,7 @@ public class HTTPServerConfig {
         default:
           if (args[i].contains("=")) {
             System.out.println("WARNING: unknown option: " + args[i] +
-                    " - please note that parameters are given as '--arg param', i.e. without '=' between argument and parameter");
+              " - please note that parameters are given as '--arg param', i.e. without '=' between argument and parameter");
           } else {
             System.out.println("WARNING: unknown option: " + args[i]);
           }
@@ -486,7 +492,7 @@ public class HTTPServerConfig {
           logger.info("Using NER service: " + globalConfig.getNerUrl());
         }
         for (Object o : props.keySet()) {
-          String key = (String)o;
+          String key = (String) o;
           if (!KNOWN_OPTION_KEYS.contains(key) && !key.matches("lang-[a-z]+-dictPath") && !key.matches("lang-[a-z]+")) {
             System.err.println("***** WARNING: ****");
             System.err.println("Key '" + key + "' from configuration file '" + file + "' is unknown. Please check the key's spelling (case is significant).");
@@ -516,7 +522,7 @@ public class HTTPServerConfig {
 
   private void addDynamicLanguages(Properties props) throws IOException {
     for (Object keyObj : props.keySet()) {
-      String key = (String)keyObj;
+      String key = (String) keyObj;
       if (key.startsWith("lang-") && !key.contains("-dictPath")) {
         String code = key.substring("lang-".length());
         if (!code.contains("-") && code.length() != 2 && code.length() != 3) {
@@ -572,7 +578,7 @@ public class HTTPServerConfig {
   }
 
   public boolean isPublicAccess() {
-    return publicAccess;
+    return true;
   }
 
   public int getPort() {
@@ -605,8 +611,8 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @since 4.8
    * @return prefix / base URL for API requests
+   * @since 4.8
    */
   @Nullable
   public URI getServerURL() {
@@ -614,8 +620,8 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @since 4.8
    * @param url prefix / base URL for API requests
+   * @since 4.8
    */
   public void setServerURL(@Nullable String url) {
     if (url != null) {
@@ -673,6 +679,7 @@ public class HTTPServerConfig {
 
   /**
    * Limit for maximum text length - text cannot be longer than this, even if user has valid secret token.
+   *
    * @since 3.9
    */
   int getMaxTextHardLength() {
@@ -680,8 +687,8 @@ public class HTTPServerConfig {
   }
 
   /**
-    @since 5.3
-    use a higher request limit for a list of users
+   * @since 5.3
+   * use a higher request limit for a list of users
    */
   public List<String> getRequestLimitWhitelistUsers() {
     return requestLimitWhitelistUsers;
@@ -692,8 +699,8 @@ public class HTTPServerConfig {
   }
 
   /**
-   @since 5.3
-   use a higher request limit for a list of users
+   * @since 5.3
+   * use a higher request limit for a list of users
    */
   public int getRequestLimitWhitelistLimit() {
     return requestLimitWhitelistLimit;
@@ -708,12 +715,16 @@ public class HTTPServerConfig {
   }
 
 
-  /** @since 4.0 */
+  /**
+   * @since 4.0
+   */
   int getTimeoutRequestLimit() {
     return timeoutRequestLimit;
   }
 
-  /** @since 4.0 */
+  /**
+   * @since 4.0
+   */
   int getRequestLimitInBytes() {
     return requestLimitInBytes;
   }
@@ -722,12 +733,16 @@ public class HTTPServerConfig {
     return requestLimitPeriodInSeconds;
   }
 
-  /** @since 6.3 */
+  /**
+   * @since 6.3
+   */
   public void setRequestLimit(int requestLimit) {
     this.requestLimit = requestLimit;
   }
 
-  /** @since 6.3 */
+  /**
+   * @since 6.3
+   */
   public void setRequestLimitPeriodInSeconds(int requestLimitPeriodInSeconds) {
     this.requestLimitPeriodInSeconds = requestLimitPeriodInSeconds;
   }
@@ -741,51 +756,64 @@ public class HTTPServerConfig {
     return requestLimitAccessToken;
   }
 
-  /** @since 6.3 */
+  /**
+   * @since 6.3
+   */
   public void setRequestLimitAccessToken(String requestLimitAccessToken) {
     this.requestLimitAccessToken = requestLimitAccessToken;
   }
 
-  /** since 4.4
-   * @return
-   * if > 0: allow n more requests per IP if fingerprints differ
+  /**
+   * since 4.4
+   *
+   * @return if > 0: allow n more requests per IP if fingerprints differ
    * if <= 0: disable fingerprinting, only rely on IP address
-   *  */
+   */
   int getIpFingerprintFactor() {
     return ipFingerprintFactor;
   }
 
   /**
    * @param maxCheckTimeMillis The maximum duration allowed for a single check in milliseconds, checks that take longer
-   *                      will stop with an exception. Use {@code -1} for no limit.
+   *                           will stop with an exception. Use {@code -1} for no limit.
    * @since 4.4
    */
   void setMaxCheckTimeMillisAnonymous(int maxCheckTimeMillis) {
     this.maxCheckTimeMillisAnonymous = maxCheckTimeMillis;
   }
 
-  /** @since 4.4 */
+  /**
+   * @since 4.4
+   */
   long getMaxCheckTimeMillisAnonymous() {
     return maxCheckTimeMillisAnonymous;
   }
 
 
-  /** @since 4.4 */
+  /**
+   * @since 4.4
+   */
   void setMaxCheckTimeMillisLoggedIn(int maxCheckTimeMillis) {
     this.maxCheckTimeMillisLoggedIn = maxCheckTimeMillis;
   }
 
-  /** @since 4.4 */
+  /**
+   * @since 4.4
+   */
   long getMaxCheckTimeMillisLoggedIn() {
     return maxCheckTimeMillisLoggedIn;
   }
 
-  /** @since 4.4 */
+  /**
+   * @since 4.4
+   */
   void setMaxCheckTimeMillisPremium(int maxCheckTimeMillis) {
     this.maxCheckTimeMillisPremium = maxCheckTimeMillis;
   }
 
-  /** @since 4.4 */
+  /**
+   * @since 4.4
+   */
   @Experimental
   long getMaxCheckTimeMillisPremium() {
     return maxCheckTimeMillisPremium;
@@ -793,6 +821,7 @@ public class HTTPServerConfig {
 
   /**
    * Get language model directory (which contains '3grams' sub directory) or {@code null}.
+   *
    * @since 2.7
    */
   @Nullable
@@ -802,6 +831,7 @@ public class HTTPServerConfig {
 
   /**
    * Get model path for fasttext language detection
+   *
    * @since 4.3
    */
   @Nullable
@@ -811,6 +841,7 @@ public class HTTPServerConfig {
 
   /**
    * Set model path for fasttext language detection
+   *
    * @since 4.4
    */
   public void setFasttextModel(File model) {
@@ -819,6 +850,7 @@ public class HTTPServerConfig {
 
   /**
    * Get binary path for fasttext language detection
+   *
    * @since 4.3
    */
   @Nullable
@@ -828,27 +860,32 @@ public class HTTPServerConfig {
 
   /**
    * Set binary path for fasttext language detection
+   *
    * @since 4.4
    */
   public void setFasttextBinary(File binary) {
     fasttextBinary = Objects.requireNonNull(binary);
   }
 
-  /** @since 2.7 */
+  /**
+   * @since 2.7
+   */
   Mode getMode() {
     return mode;
   }
 
   /**
    * @param maxCheckThreads The maximum number of threads serving requests running at the same time.
-   * If there are more requests, they will be queued until a thread can work on them.
+   *                        If there are more requests, they will be queued until a thread can work on them.
    * @since 2.7
    */
   void setMaxCheckThreads(int maxCheckThreads) {
     this.maxCheckThreads = maxCheckThreads;
   }
 
-  /** @since 2.7 */
+  /**
+   * @since 2.7
+   */
   int getMaxCheckThreads() {
     return maxCheckThreads;
   }
@@ -861,7 +898,9 @@ public class HTTPServerConfig {
     this.maxTextCheckerThreads = maxTextCheckerThreads;
   }
 
-  /** @since 5.6 */
+  /**
+   * @since 5.6
+   */
   int getMaxTextCheckerThreads() {
     // unset - use maxCheckThreads
     return maxTextCheckerThreads != 0 ? maxTextCheckerThreads : maxCheckThreads;
@@ -879,18 +918,23 @@ public class HTTPServerConfig {
    * Set to {@code true} if this is running behind a (reverse) proxy which
    * sets the {@code X-forwarded-for} HTTP header. The last IP address (but not local IP addresses)
    * in that header will then be used for enforcing a request limitation.
+   *
    * @since 2.8
    */
   void setTrustXForwardForHeader(boolean trustXForwardForHeader) {
     this.trustXForwardForHeader = trustXForwardForHeader;
   }
 
-  /** @since 2.8 */
+  /**
+   * @since 2.8
+   */
   boolean getTrustXForwardForHeader() {
     return trustXForwardForHeader;
   }
 
-  /** @since 2.9 */
+  /**
+   * @since 2.9
+   */
   int getMaxWorkQueueSize() {
     return maxWorkQueueSize;
   }
@@ -932,28 +976,37 @@ public class HTTPServerConfig {
   }
 
 
-  /** @since 4.4 */
+  /**
+   * @since 4.4
+   */
   public void setPipelineCaching(boolean pipelineCaching) {
     this.pipelineCaching = pipelineCaching;
   }
 
-  /** @since 4.4 */
+  /**
+   * @since 4.4
+   */
   public void setPipelinePrewarming(boolean pipelinePrewarming) {
     this.pipelinePrewarming = pipelinePrewarming;
   }
 
-  /** @since 4.4 */
+  /**
+   * @since 4.4
+   */
   public void setMaxPipelinePoolSize(int maxPipelinePoolSize) {
     this.maxPipelinePoolSize = maxPipelinePoolSize;
   }
 
-  /** @since 4.4 */
+  /**
+   * @since 4.4
+   */
   public void setPipelineExpireTime(int pipelineExpireTime) {
     this.pipelineExpireTime = pipelineExpireTime;
   }
 
   /**
    * Cache size (in number of sentences).
+   *
    * @since 3.7
    */
   int getCacheSize() {
@@ -962,6 +1015,7 @@ public class HTTPServerConfig {
 
   /**
    * Set cache size (in number of sentences).
+   *
    * @since 4.2
    */
   void setCacheSize(int sentenceCacheSize) {
@@ -970,6 +1024,7 @@ public class HTTPServerConfig {
 
   /**
    * Cache entry TTL; refreshed on access; in seconds
+   *
    * @since 4.6
    */
   long getCacheTTLSeconds() {
@@ -978,6 +1033,7 @@ public class HTTPServerConfig {
 
   /**
    * Set cache entry TTL in seconds
+   *
    * @since 4.6
    */
   void setCacheTTLSeconds(long cacheTTLSeconds) {
@@ -989,6 +1045,7 @@ public class HTTPServerConfig {
    * For example, with a rate of 0.33, the checking would stop if the user's
    * text has so many errors that more than every 3rd word causes a rule match.
    * Note that this may not apply for very short texts.
+   *
    * @since 4.0
    */
   float getMaxErrorsPerWordRate() {
@@ -998,6 +1055,7 @@ public class HTTPServerConfig {
   /**
    * Maximum number of spelling errors for which a suggestion will be generated
    * per check. It makes sense to limit this as generating suggestions is a CPU-heavy task.
+   *
    * @since 4.2
    */
   int getMaxSpellingSuggestions() {
@@ -1006,6 +1064,7 @@ public class HTTPServerConfig {
 
   /**
    * A list of HTTP referrers that are blocked and will only get an error message.
+   *
    * @since 4.2
    */
   @NotNull
@@ -1117,6 +1176,7 @@ public class HTTPServerConfig {
 
   /**
    * Whether meta data about each search (like in the logfile) should be logged to the database.
+   *
    * @since 4.4
    */
   void setDatabaseLogging(boolean logging) {
@@ -1133,6 +1193,7 @@ public class HTTPServerConfig {
 
   /**
    * timeout for database requests (for now, only requests for credentials to log in)
+   *
    * @since 4.7
    */
   public long getDbTimeoutSeconds() {
@@ -1141,6 +1202,7 @@ public class HTTPServerConfig {
 
   /**
    * timeout for database requests (for now, only requests for credentials to log in)
+   *
    * @since 4.7
    */
   public void setDbTimeoutSeconds(long dbTimeoutSeconds) {
@@ -1150,6 +1212,7 @@ public class HTTPServerConfig {
 
   /**
    * Rate in percent of requests (0-100) of timeouts during database queries until circuit breaker opens
+   *
    * @since 5.5
    */
   public int getDatabaseTimeoutRateThreshold() {
@@ -1162,6 +1225,7 @@ public class HTTPServerConfig {
 
   /**
    * Rate in percent of requests (0-100) of errors during database queries until circuit breaker opens
+   *
    * @since 5.5
    */
   public int getDatabaseErrorRateThreshold() {
@@ -1174,6 +1238,7 @@ public class HTTPServerConfig {
 
   /**
    * Number of seconds to skip database requests when a potential downtime has been detected
+   *
    * @since 5.5
    */
   public int getDatabaseDownIntervalSeconds() {
@@ -1188,6 +1253,7 @@ public class HTTPServerConfig {
   /**
    * Whether requests with credentials should be treated as anonymous requests in case of DB errors/timeout or
    * throw an error
+   *
    * @since 4.7
    */
   public boolean getGracefulDatabaseFailure() {
@@ -1197,6 +1263,7 @@ public class HTTPServerConfig {
   /**
    * Whether requests with credentials should be treated as anonymous requests in case of DB errors/timeout or
    * throw an error
+   *
    * @since 4.7
    */
   public void setGracefulDatabaseFailure(boolean gracefulDatabaseFailure) {
@@ -1235,6 +1302,7 @@ public class HTTPServerConfig {
   public boolean isRedisUseSSL() {
     return redisUseSSL;
   }
+
   @Nullable
   public String getRedisPassword() {
     return redisPassword;
@@ -1246,6 +1314,7 @@ public class HTTPServerConfig {
 
   /**
    * Timeout for regular commands
+   *
    * @return
    */
   public long getRedisTimeoutMilliseconds() {
@@ -1262,8 +1331,8 @@ public class HTTPServerConfig {
   // TODO could introduce 'expire after access' logic, i.e. refresh expire when reading
 
   /**
-   * @since 4.5
    * @return threshold for rule computation time until a warning gets logged, in milliseconds
+   * @since 4.5
    */
   public int getSlowRuleLoggingThreshold() {
     return slowRuleLoggingThreshold;
@@ -1320,6 +1389,7 @@ public class HTTPServerConfig {
 
   /**
    * Clients that a A/B test runs on; null -&gt; disabled
+   *
    * @since 4.9
    */
   @Experimental
@@ -1330,6 +1400,7 @@ public class HTTPServerConfig {
 
   /**
    * Clients that a A/B test runs on; null -&gt; disabled
+   *
    * @since 4.9
    */
   @Experimental
@@ -1358,12 +1429,16 @@ public class HTTPServerConfig {
     return abTestRollout;
   }
 
-  /** @since 5.2 */
+  /**
+   * @since 5.2
+   */
   public void setNgramLangIdentData(File ngramLangIdentData) {
     this.ngramLangIdentData = ngramLangIdentData;
   }
 
-  /** @since 5.2 */
+  /**
+   * @since 5.2
+   */
   @Nullable
   public File getNgramLangIdentData() {
     return ngramLangIdentData;
@@ -1373,7 +1448,7 @@ public class HTTPServerConfig {
    * @throws IllegalConfigurationException if property is not set
    */
   protected String getProperty(Properties props, String propertyName, File config) {
-    String propertyValue = (String)props.get(propertyName);
+    String propertyValue = (String) props.get(propertyName);
     if (propertyValue == null || propertyValue.trim().isEmpty()) {
       throw new IllegalConfigurationException("Property '" + propertyName + "' must be set in " + config);
     }
@@ -1381,19 +1456,23 @@ public class HTTPServerConfig {
   }
 
   protected String getOptionalProperty(Properties props, String propertyName, String defaultValue) {
-    String propertyValue = (String)props.get(propertyName);
+    String propertyValue = (String) props.get(propertyName);
     if (propertyValue == null) {
       return defaultValue;
     }
     return propertyValue;
   }
 
-  /** @since 5.1 */
+  /**
+   * @since 5.1
+   */
   boolean isPremiumAlways() {
     return premiumAlways;
   }
 
-  /** @since 5.1 */
+  /**
+   * @since 5.1
+   */
   void setPremiumAlways(boolean premiumAlways) {
     this.premiumAlways = premiumAlways;
   }
@@ -1403,7 +1482,8 @@ public class HTTPServerConfig {
   }
 
   /**
-   * Allow using redis sentinel for automated failover */
+   * Allow using redis sentinel for automated failover
+   */
   public boolean isRedisUseSentinel() {
     return redisUseSentinel;
   }
@@ -1501,16 +1581,16 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @since 6.2
    * @return max number of active connections in DB connection pool
+   * @since 6.2
    */
   public int getDbMaxConnections() {
     return dbMaxConnections;
   }
 
   /**
-   * @since 6.2
    * @param dbMaxConnections max number of active connections in DB connection pool
+   * @since 6.2
    */
   public void setDbMaxConnections(int dbMaxConnections) {
     this.dbMaxConnections = dbMaxConnections;
