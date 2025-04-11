@@ -112,8 +112,8 @@ public class RuleMatchesAsJsonSerializer {
     try {
       try (JsonGenerator g = factory.createGenerator(sw)) {
         g.writeStartObject();
-        writeSoftwareSection(g, showPremiumHint);
-        writeWarningsSection(g, incompleteResultsReason);
+//        writeSoftwareSection(g, showPremiumHint);
+//        writeWarningsSection(g, incompleteResultsReason);
         writeLanguageSection(g, detectedLang);
         writeMatchesSection("matches", g, res, text, contextTools);
         if (hiddenMatches != null && hiddenMatches.size() > 0) {
