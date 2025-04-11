@@ -564,12 +564,12 @@ class ApiV2 {
     try (JsonGenerator g = factory.createGenerator(sw)) {
       g.writeStartObject();
 
-      g.writeObjectFieldStart("software");
-      g.writeStringField("name", "LanguageTool");
-      g.writeStringField("version", JLanguageTool.VERSION);
-      g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
-      g.writeBooleanField("premium", Premium.isPremiumVersion());
-      g.writeEndObject();
+//      g.writeObjectFieldStart("software");
+//      g.writeStringField("name", "LanguageTool");
+//      g.writeStringField("version", JLanguageTool.VERSION);
+//      g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
+//      g.writeBooleanField("premium", Premium.isPremiumVersion());
+//      g.writeEndObject();
       
       g.writeObjectFieldStart("parameter");
       g.writeNumberField("maxTextLength", config.getMaxTextHardLength());

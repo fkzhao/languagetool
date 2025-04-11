@@ -578,7 +578,8 @@ public class HTTPServerConfig {
   }
 
   public boolean isPublicAccess() {
-    return publicAccess;
+    return true;
+//    return publicAccess;
   }
 
   public int getPort() {
