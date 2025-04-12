@@ -30,6 +30,8 @@ RUN set -eux; \
     mkdir -p "${JAVA_HOME}"; \
     mkdir -p /languagetool; \
     mkdir -p /models; \
+    mkdir -p /models/fasttext; \
+    mkdir -p /models/ngrams; \
     tar --extract \
         --file /tmp/jre.tar.gz \
         --directory "${JAVA_HOME}" \
@@ -49,14 +51,14 @@ RUN set -eux; \
     adduser -u 783 -S languagetool -G languagetool -H
 
 
-ENV langtool_languageModel=/ngrams \
+ENV langtool_languageModel=/models/ngrams \
     langtool_fasttextBinary=/usr/bin/fasttext \
-    langtool_fasttextModel=/fasttext/lid.176.bin \
+    langtool_fasttextModel=/models/fasttext/lid.176.bin \
     download_ngrams_for_langs=none \
     MAP_UID=783 \
     MAP_GID=783 \
     LOG_LEVEL=INFO \
-    LOGBACK_CONFIG=./logback.xml \
+    LOGBACK_CONFIG=/languagetool/logback.xml \
     DISABLE_PERMISSION_FIX=false \
     DISABLE_FASTTEXT=false
 
