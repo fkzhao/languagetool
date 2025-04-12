@@ -283,7 +283,8 @@ fi
 # start languagetool
 echo "INFO: StartingLanguage Tool Standalone Server (or custom command)"
 if is_root; then
-  EXECUTE_ARGS="su-exec languagetool:languagetool"
+  EXECUTE_ARGS=""
+#  EXECUTE_ARGS="su-exec languagetool:languagetool"
 else
   EXECUTE_ARGS=""
 fi
