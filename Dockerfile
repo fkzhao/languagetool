@@ -46,7 +46,7 @@ RUN set -eux; \
 
 RUN set -eux; \
     mkdir -p /languagetool;
-
+COPY languagetool-server/target/languagetool-server.jar /languagetool/languagetool-server.jar
 RUN set -eux; \
 	cd "/languagetool"; \
     ${JAVA_HOME}/bin/jar xf languagetool-server.jar logback.xml;
