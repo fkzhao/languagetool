@@ -26,7 +26,7 @@ RUN set -eux; \
     URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.9%2B9/OpenJDK17U-jre_x64_alpine-linux_hotspot_17.0.9_9.tar.gz"; \
     CHKSUM=$(wget --quiet -O -  "${URL}.sha256.txt" | cut -d' ' -f1); \
     wget -O /tmp/jre.tar.gz ${URL}; \
-    echo "${CHKSUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
+    echo "${CHKSUM} */tmp/jre.tar.gz" | sha256sum -c -; \
     mkdir -p "${JAVA_HOME}"; \
     mkdir -p /languagetool; \
     mkdir -p /models; \
