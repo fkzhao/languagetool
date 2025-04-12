@@ -36,6 +36,7 @@ RUN set -eux; \
     wget -O /tmp/openjdk.tar.gz ${URL}; \
     echo "${CHKSUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
     mkdir -p "${JAVA_HOME}"; \
+    mkdir -p /languagetool; \
     tar --extract \
         --file /tmp/openjdk.tar.gz \
         --directory "${JAVA_HOME}" \
@@ -43,9 +44,6 @@ RUN set -eux; \
         --no-same-owner \
     ; \
     rm /tmp/openjdk.tar.gz;
-
-RUN set -eux; \
-    mkdir -p /languagetool;
 
 COPY languagetool-server/target/languagetool-server.jar /languagetool/languagetool-server.jar
 
