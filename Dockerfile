@@ -1,8 +1,6 @@
 ARG LT_VERSION=6.5
-ARG JAVA_VERSION=jdk-17.0.9+9
+ARG JAVA_VERSION=jre-17.0.9+9
 FROM alpine:3.21.3 AS base
-
-FROM base AS java_base
 
 ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
@@ -12,13 +10,7 @@ RUN set -eux; \
     apk add --no-cache libretls musl-locales musl-locales-lang tzdata zlib unzip; \
     rm -rf /var/cache/apk/*
 
-FROM java_base AS prepare
-SHELL ["/bin/sh", "-o", "pipefail", "-c"]
-
-ARG LT_VERSION
-ARG JAVA_VERSION
-
-ENV JAVA_HOME=/opt/java/openjdk \
+ENV JAVA_HOME=/opt/jvm \
     JAVA_VERSION=${JAVA_VERSION}
 
 RUN set -eux; \
@@ -33,62 +25,34 @@ RUN set -eux; \
     RELEASE_NUMBER="${RELEASE_NUMBER/+/_}"; \
     URL="https://github.com/adoptium/temurin17-binaries/releases/download/${RELEASE_PATH}/OpenJDK17U-${RELEASE_TYPE}_x64_alpine-linux_hotspot_${RELEASE_NUMBER}.tar.gz"; \
     CHKSUM=$(wget --quiet -O -  "${URL}.sha256.txt" | cut -d' ' -f1); \
-    wget -O /tmp/openjdk.tar.gz ${URL}; \
+    wget -O /tmp/jre.tar.gz ${URL}; \
     echo "${CHKSUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
     mkdir -p "${JAVA_HOME}"; \
     mkdir -p /languagetool; \
+    mkdir -p /models; \
     tar --extract \
-        --file /tmp/openjdk.tar.gz \
+        --file /tmp/jre.tar.gz \
         --directory "${JAVA_HOME}" \
         --strip-components 1 \
         --no-same-owner \
     ; \
-    ls -l "${JAVA_HOME}"; \
-    ls -l "${JAVA_HOME}/bin"; \
-    rm /tmp/openjdk.tar.gz;
+    rm /tmp/jre.tar.gz;
 
 COPY languagetool-server/target/languagetool-server.jar /languagetool/languagetool-server.jar
-
-RUN set -eux; \
-	cd "/languagetool"; \
-    ls -l /languagetool; \
-    ${JAVA_HOME}/bin/jar xf languagetool-server.jar logback.xml;
-
-RUN set -eux; \
-    LT_DEPS=$("${JAVA_HOME}/bin/jdeps" \
-        --print-module-deps \
-        --ignore-missing-deps \
-        --recursive \
-        --multi-release 21 \
-        --class-path="/languagetool/libs/*" \
-        --module-path="/languagetool/libs/*" \
-        /languagetool/languagetool-server.jar); \
-    "${JAVA_HOME}/bin/jlink" \
-        --add-modules "${LT_DEPS}" \
-        --strip-debug \
-        --no-man-pages \
-        --no-header-files \
-        --compress=2 \
-        --output /opt/java/customjre
-
-
-FROM java_base
+COPY config/logback.xml /languagetool/logback.xml
+COPY config/config.properties /languagetool/config.properties
 
 RUN set -eux; \
     apk add --no-cache bash shadow libstdc++ gcompat su-exec tini xmlstarlet fasttext; \
     rm -f /var/cache/apk/*; \
-    mkdir -p /app; \
-    mkdir -p /models;
+
 
 RUN set -eux; \
     groupmod --gid 783 --new-name languagetool users; \
     adduser -u 783 -S languagetool -G languagetool -H
 
-COPY --from=prepare /languagetool/ /languagetool
-COPY --from=prepare /opt/java/customjre/ /opt/java/customjre
 
-ENV JAVA_HOME=/opt/java/customjre \
-    langtool_languageModel=/ngrams \
+ENV langtool_languageModel=/ngrams \
     langtool_fasttextBinary=/usr/bin/fasttext \
     langtool_fasttextModel=/fasttext/lid.176.bin \
     download_ngrams_for_langs=none \
