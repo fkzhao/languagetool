@@ -1,16 +1,15 @@
 FROM meddream/jdk17
 ARG APP_NAME=flow-gateway
 
-RUN apt-get update \
-&& apt install tini \
-&& set -eux; \
-&& groupmod --gid 783 --new-name languagetool users; \
-&& adduser -u 783 -S languagetool -G languagetool -H \
-&& rm -f /etc/localtime \
+RUN rm -f /etc/localtime \
 && ln -sv /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 && echo "Asia/Shanghai" > /etc/timezone \
+&& apt-get update \
+&& apt install tini \
 && mkdir -p /app \
-&& mkdir -p /app/models
+&& mkdir -p /app/models \
+&& groupmod --gid 783 --new-name languagetool users \
+&& adduser -u 783 -S languagetool -G languagetool -H
 
 
 WORKDIR /app
