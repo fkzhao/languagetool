@@ -32,4 +32,4 @@ ENV JAVA_HOME=/opt/java/customjre \
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s CMD wget --quiet --post-data "language=en-US&text=a simple test" -O - http://localhost:8081/v2/check > /dev/null 2>&1  || exit 1
 
 EXPOSE 8081
-ENTRYPOINT ["/usr/bin/tini", "-g", "-e", "143", "--", "/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/tini", "-g", "-e", "143", "--", "/app/entrypoint.sh"]

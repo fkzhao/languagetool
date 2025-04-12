@@ -291,7 +291,7 @@ fi
 read -ra FINAL_EXECUTE_ARGS <<< "${EXECUTE_ARGS}"
 
 exec "${FINAL_EXECUTE_ARGS[@]}" \
-    java "${FINAL_JAVA_OPTS[@]} -Dlogback.configurationFile="/tmp/logback.xml" -cp languagetool-server.jar org.languagetool.server.HTTPServer \
+    java "${FINAL_JAVA_OPTS[@]} -Dlogback.configurationFile="/tmp/logback.xml" -cp /app/languagetool-server.jar org.languagetool.server.HTTPServer \
       --port 8081 \
       --public \
       --allow-origin "*" \
