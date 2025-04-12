@@ -1,5 +1,5 @@
 ARG LT_VERSION=6.5
-ARG JAVA_VERSION=jdk-21.0.6+7
+ARG JAVA_VERSION=jdk-17.0.9+9
 FROM alpine:3.21.3 AS base
 
 FROM base AS java_base
@@ -31,7 +31,7 @@ RUN set -eux; \
     RELEASE_TYPE="${JAVA_VERSION%-*}"; \
     RELEASE_NUMBER="${JAVA_VERSION#*-}"; \
     RELEASE_NUMBER="${RELEASE_NUMBER/+/_}"; \
-    URL="https://github.com/adoptium/temurin21-binaries/releases/download/${RELEASE_PATH}/OpenJDK21U-${RELEASE_TYPE}_x64_alpine-linux_hotspot_${RELEASE_NUMBER}.tar.gz"; \
+    URL="https://github.com/adoptium/temurin17-binaries/releases/download/${RELEASE_PATH}/OpenJDK17U-${RELEASE_TYPE}_x64_alpine-linux_hotspot_${RELEASE_NUMBER}.tar.gz"; \
     CHKSUM=$(wget --quiet -O -  "${URL}.sha256.txt" | cut -d' ' -f1); \
     wget -O /tmp/openjdk.tar.gz ${URL}; \
     echo "${CHKSUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
