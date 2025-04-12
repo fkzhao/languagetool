@@ -45,9 +45,6 @@ COPY config/config.properties /languagetool/config.properties
 RUN set -eux; \
     apk add --no-cache bash shadow libstdc++ gcompat su-exec tini xmlstarlet fasttext; \
     rm -f /var/cache/apk/*; \
-
-
-RUN set -eux; \
     groupmod --gid 783 --new-name languagetool users; \
     adduser -u 783 -S languagetool -G languagetool -H
 
