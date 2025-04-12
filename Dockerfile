@@ -23,7 +23,7 @@ RUN set -eux; \
     RELEASE_TYPE="${JAVA_VERSION%-*}"; \
     RELEASE_NUMBER="${JAVA_VERSION#*-}"; \
     RELEASE_NUMBER="${RELEASE_NUMBER/+/_}"; \
-    URL="https://github.com/adoptium/temurin17-binaries/releases/download/${RELEASE_PATH}/OpenJDK17U-jre_x64_alpine-linux_hotspot_${RELEASE_NUMBER}.tar.gz"; \
+    URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.9%2B9/OpenJDK17U-jre_x64_alpine-linux_hotspot_17.0.9_9.tar.gz"; \
     CHKSUM=$(wget --quiet -O -  "${URL}.sha256.txt" | cut -d' ' -f1); \
     wget -O /tmp/jre.tar.gz ${URL}; \
     echo "${CHKSUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
