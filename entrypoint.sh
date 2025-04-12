@@ -239,7 +239,7 @@ else
 fi
 
 # create config
-CONFIG_FILE=/app/config.properties
+CONFIG_FILE=/tmp/config.properties
 create_config "${CONFIG_FILE}"
 
 print_info
@@ -271,6 +271,10 @@ fi
 
 read -ra FINAL_JAVA_OPTS <<< "${JAVA_OPTS}"
 
+#setloglevel
+cp "${LOGBACK_CONFIG}" /tmp/logback.xml
+xml edit --inplace --update "/configuration/logger[@name='org.languagetool']/@level" --value "${LOG_LEVEL}" /tmp/logback.xml
+
 if [[ $# -gt 0 ]] && [[ "$1" != "help" ]]; then
   if is_root; then
     exec su-exec languagetool:languagetool "$@"
@@ -291,8 +295,8 @@ fi
 read -ra FINAL_EXECUTE_ARGS <<< "${EXECUTE_ARGS}"
 
 exec "${FINAL_EXECUTE_ARGS[@]}" \
-    java "${FINAL_JAVA_OPTS[@]} -Dlogback.configurationFile="/tmp/logback.xml" -cp languagetool-server.jar org.languagetool.server.HTTPServer \
-      --port 8081 \
+    java "${FINAL_JAVA_OPTS[@]}" -Dlogback.configurationFile="/tmp/logback.xml" -cp languagetool-server.jar org.languagetool.server.HTTPServer \
+      --port "${LISTEPORT:-8010}" \
       --public \
       --allow-origin "*" \
-      --config /app/config.properties
+      --config /tmp/config.properties
