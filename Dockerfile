@@ -44,6 +44,7 @@ RUN set -eux; \
         --no-same-owner \
     ; \
     ls -l "${JAVA_HOME}"; \
+    ls -l "${JAVA_HOME}/bin"; \
     rm /tmp/openjdk.tar.gz;
 
 COPY languagetool-server/target/languagetool-server.jar /languagetool/languagetool-server.jar
