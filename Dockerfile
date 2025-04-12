@@ -45,10 +45,13 @@ RUN set -eux; \
     rm /tmp/openjdk.tar.gz;
 
 RUN set -eux; \
-    mkdir -p /languagetool;
+    mkdir -p /languagetool; \
+
 COPY languagetool-server/target/languagetool-server.jar /languagetool/languagetool-server.jar
+
 RUN set -eux; \
 	cd "/languagetool"; \
+    ls -l; \
     ${JAVA_HOME}/bin/jar xf languagetool-server.jar logback.xml;
 
 RUN set -eux; \
