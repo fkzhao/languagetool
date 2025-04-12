@@ -9,6 +9,10 @@ RUN rm -f /etc/localtime \
 && mkdir -p /app \
 && mkdir -p /app/models
 
+RUN set -eux; \
+    groupmod --gid 783 --new-name languagetool users; \
+    adduser -u 783 -S languagetool -G languagetool -H \
+
 WORKDIR /app
 COPY languagetool-server/target/*.jar /app/languagetool-server.jar
 COPY config/config.properties /app/config.properties
