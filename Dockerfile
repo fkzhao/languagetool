@@ -68,7 +68,6 @@ RUN set -eux; \
     adduser -u 783 -S languagetool -G languagetool -H
 
 COPY --from=prepare /languagetool/ /languagetool
-COPY --from=prepare /opt/java/customjre/ /opt/java/customjre
 
 ENV JAVA_HOME=/opt/java/customjre \
     langtool_languageModel=/models/ngrams \
