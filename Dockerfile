@@ -55,22 +55,6 @@ COPY languagetool-server/target/*.jar /app/languagetool-server.jar
 COPY config/config.properties /tmp/config.properties
 COPY config/logback.xml /tmp/logback.xml
 
-RUN set -eux; \
-    LT_DEPS=$("${JAVA_HOME}/bin/jdeps" \
-        --print-module-deps \
-        --ignore-missing-deps \
-        --recursive \
-        --multi-release 21 \
-        --class-path="/languagetool/libs/*" \
-        --module-path="/languagetool/libs/*" \
-        /languagetool/languagetool-server.jar); \
-    "${JAVA_HOME}/bin/jlink" \
-        --add-modules "${LT_DEPS}" \
-        --strip-debug \
-        --no-man-pages \
-        --no-header-files \
-        --compress=2 \
-        --output /opt/java/customjre
 
 
 FROM java_base
@@ -88,8 +72,8 @@ COPY --from=prepare /opt/java/customjre/ /opt/java/customjre
 
 ENV JAVA_HOME=/opt/java/customjre \
     langtool_languageModel=/models/ngrams \
-    langtool_fasttextBinary=/models/usr/bin/fasttext \
-    langtool_fasttextModel=/fasttext/lid.176.bin \
+    langtool_fasttextBinary=/usr/bin/fasttext \
+    langtool_fasttextModel=/models/fasttext/lid.176.bin \
     download_ngrams_for_langs=none \
     MAP_UID=783 \
     MAP_GID=783 \
