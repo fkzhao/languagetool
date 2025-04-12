@@ -51,6 +51,7 @@ COPY languagetool-server/target/languagetool-server.jar /languagetool/languageto
 
 RUN set -eux; \
 	cd "/languagetool"; \
+    ls -l /languagetool; \
     ${JAVA_HOME}/bin/jar xf languagetool-server.jar logback.xml;
 
 RUN set -eux; \
