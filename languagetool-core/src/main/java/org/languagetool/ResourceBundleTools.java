@@ -61,7 +61,7 @@ public final class ResourceBundleTools {
           }
         }
       }
-      ResourceBundle fallbackBundle = JLanguageTool.getDataBroker().getResourceBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
+      ResourceBundle fallbackBundle = JLanguageTool.getDataBroker().getResourceBundle(MESSAGE_BUNDLE, Locale.CHINESE);
       return new ResourceBundleWithFallback(bundle, fallbackBundle);
     } catch (MissingResourceException e) {
       return JLanguageTool.getDataBroker().getResourceBundle(MESSAGE_BUNDLE, Locale.ENGLISH);

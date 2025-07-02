@@ -352,6 +352,6 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   @Override
   public ResourceBundle getResourceBundle(String baseName, Locale locale) {
-    return ResourceBundle.getBundle(baseName, locale);
+    return ResourceBundle.getBundle(baseName, Locale.CHINESE);
   }
 }
