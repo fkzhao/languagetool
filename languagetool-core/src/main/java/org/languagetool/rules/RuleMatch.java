@@ -502,6 +502,11 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * Used in server use case (i.e. {@code org.languagetool.server.TextChecker})
    */
   public void computeLazySuggestedReplacements() {
+    if (suggestedReplacements.get().isEmpty()) {
+      // no replacements, nothing to compute
+      suggestionsComputed = true;
+      return;
+    }
     suggestedReplacements = Suppliers.ofInstance(Collections.singletonList(suggestedReplacements.get().get(0)));
     suggestionsComputed = true;
   }
