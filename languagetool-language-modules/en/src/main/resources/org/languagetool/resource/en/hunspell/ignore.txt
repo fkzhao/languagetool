@@ -11026,7 +11026,13 @@ resourcing
 Leavitt
 Panagiotis
 perf
+proj
+QD
+QDs
 ln
+SDAX
+interop
+Bandreddy
 Bookmarksgrove
 capitalizeable
 uncapitalizeable
@@ -11034,6 +11040,8 @@ uncapitalizable
 noncapitalizeable
 noncapitalizable
 inerts
+JDs
+McMaster
 Kanto
 Kantō
 Darden
@@ -11054,5 +11062,7 @@ Wakatsuki
 Soto
 Odilia
 Fuentes
+kboepd
+boe
 tsp
 tbsp

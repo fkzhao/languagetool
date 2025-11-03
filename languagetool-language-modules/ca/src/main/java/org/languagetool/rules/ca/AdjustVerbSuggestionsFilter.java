@@ -41,13 +41,14 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-    /*if (match.getSentence().getText().contains("-se el gat a l'aigua")) {
+    /*if (match.getSentence().getText().contains("Demà es compliran")) {
       int ii=0;
       ii++;
     }*/
     JLanguageTool lt = ((PatternRule) match.getRule()).getLanguage().createDefaultJLanguageTool();
     List<String> replacements = new ArrayList<>();
     boolean numberFromNextWords = getOptional("numberFromNextWords", arguments, "false").equalsIgnoreCase("true");
+    String forceNumber = getOptional("forceNumber", arguments, "");
     Synthesizer synth = getSynthesizerFromRuleMatch(match);
     int posWord = 0;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
@@ -125,6 +126,9 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       if (newLemma.equals("haver")) {
         desiredNumber = "S";
       }
+      if (!forceNumber.isEmpty()) {
+        desiredNumber = forceNumber;
+      }
       String action = "removePronounReflexive";
       if (newLemma.endsWith("-se'n")) {
         newLemma = newLemma.substring(0, newLemma.length() - 5);
@@ -132,7 +136,10 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       } else if (newLemma.endsWith("-se")) {
         newLemma = newLemma.substring(0, newLemma.length() - 3);
         action = "addPronounReflexive";
-      } else if (newLemma.endsWith("-hi")) {
+      } else if (newLemma.endsWith("'s")) {
+        newLemma = newLemma.substring(0, newLemma.length() - 2);
+        action = "addPronounReflexive";
+      }else if (newLemma.endsWith("-hi")) {
         newLemma = newLemma.substring(0, newLemma.length() - 3);
         action = "addPronounHi";
       } else if (newLemma.endsWith("-s'ho")) {

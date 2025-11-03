@@ -97,6 +97,7 @@ public class HTTPServerConfig {
   protected int cacheSize = 0;
   protected long cacheTTLSeconds = 300;
   protected float maxErrorsPerWordRate = 0;
+  protected boolean suggestionsEnabled = true;
   protected int maxSpellingSuggestions = 0;
   protected List<String> blockedReferrers = new ArrayList<>();
   protected Pattern trustedSources = null;
@@ -197,7 +198,7 @@ public class HTTPServerConfig {
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
     "dbDriver", "dbPassword", "dbUrl", "dbUsername", "disabledRuleIds", "fasttextBinary", "fasttextModel", "grammalectePassword",
     "grammalecteServer", "grammalecteUser", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxTextCheckerThreads", "textCheckerQueueSize", "maxCheckTimeMillis",
-    "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "maxSpellingSuggestions", "maxTextHardLength",
+    "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "suggestionsEnabled", "maxSpellingSuggestions", "maxTextHardLength",
     "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "pipelineCaching",
     "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
     "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "requestLimitWhitelistUsers", "requestLimitWhitelistLimit",
@@ -401,6 +402,7 @@ public class HTTPServerConfig {
         }
         cacheTTLSeconds = Integer.parseInt(getOptionalProperty(props, "cacheTTLSeconds", "300"));
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
+        suggestionsEnabled = Boolean.parseBoolean(getOptionalProperty(props, "suggestionsEnabled", "true"));
         maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
         blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
         setTrustedSources(getOptionalProperty(props, "trustedSources", null));
@@ -1050,6 +1052,14 @@ public class HTTPServerConfig {
    */
   float getMaxErrorsPerWordRate() {
     return maxErrorsPerWordRate;
+  }
+
+  /**
+   * If the generation of suggestions should be enabled (default true)
+   * @since 6.8
+   */
+  public boolean isSuggestionsEnabled() {
+    return suggestionsEnabled;
   }
 
   /**

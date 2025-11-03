@@ -105992,3 +105992,11 @@ induikjes	induik	ZNW:MRV:VRK:DE_
 ex-legbatterijkip	ex-legbatterijkip	WKW:INF:ZNW:HET
 Startup	Startup	ENM:LOC:PTS
 trys	try	ZNW:MRV:DE_
+Ideal	Ideal	ENM:LOC:PTS
+rechtreeks	rechtreeks	ZNW:EKV:DE_
+Phnom-Penh	Phnom-Penh	ENM:LOC:PTS
+chemiepack	chemiepack	ZNW:EKV:HET
+atlascontact	atlascontact	ZNW:EKV:HET
+transvormer	transvormer	ZNW:EKV:DE_
+transvormers	transvormers	ZNW:MRV:DE_
+hartenlust	hartenlust	ZNW:EKV:DE_

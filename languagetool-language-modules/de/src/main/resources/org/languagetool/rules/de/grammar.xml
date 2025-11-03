@@ -93,7 +93,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY seitewoerter ".*Buchs?|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
     <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?|vergiessens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
-    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|wohl|genau|laut|maximal|reichlich|(tag)?täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich|ungefähr|unter|zwischenzeitlich|vermutlich">
+    <!ENTITY meinkleinhausausnahmen "ausreichend|potenziell|potentiell|erst|ganz|wohl|genau|laut|maximal|reichlich|(tag)?täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich|ungefähr|unter|zwischenzeitlich|vermutlich">
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
     <!ENTITY verbendirekterede "be(fehlen|haupten)|denken|fragen|rufen|sagen|versichern|flüstern|sprechen|schreien|antworten|säuseln|flehen">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
@@ -10756,17 +10756,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>1923 kam ein Schmied hinzu, der bis 1963 tätig war.</example>
             </rule>
         </rulegroup>
-        <rule id="STATISCHE_BUNDESAMT" name="Statisches (Statistisches) Bundesamt">
-            <pattern>
-                <token regexp="yes">statische[snm]?</token>
-                <token regexp="yes" inflected="yes">Bundesamt|Landesamt</token>
-            </pattern>
-            <message>Meinten Sie 'statistisch' (auf Statistik bezogen) statt 'statisch' (unverändert) ?</message>
-            <suggestion><match regexp_match="[Ss]tatisch" regexp_replace="Statistisch" no="1"/> \2</suggestion>
-            <url>https://de.wikipedia.org/wiki/Statistisches_Bundesamt</url>
-            <example correction="Statistische Bundesamt">Das <marker>Statische Bundesamt</marker> hat neue Zahlen veröffentlicht.</example>
-            <example correction="Statistischen Bundesamtes">Die neuen Zahlen des <marker>statischen Bundesamtes</marker> liegen vor.</example>
-        </rule>
         <rule id="GESCHAEFTIG_GESCHAEFTLICH" name="geschäftig vs. geschäftlich">
             <pattern>
                 <marker>
@@ -11594,25 +11583,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="versenkt">Die Schiffe wurden im Meer <marker>versinkt</marker>.</example>
                 <example correction="versenkt">Die Schiffe wurden <marker>versunken</marker>.</example>
                 <example>Die Schiffe wurden im Schlamm <marker>versunken</marker> aufgefunden.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="HUMAN_RESOURCES" name="Ressource vs. Resource">
-            <url>https://de.wikipedia.org/wiki/Personalwesen</url>
-            <rule>
-                <pattern>
-                    <token>Human</token>
-                    <token regexp="yes">Ressources?</token>
-                </pattern>
-                <message>Meinten Sie den englischen Begriff <suggestion><match no="1" case_conversion="startupper" /> <match no="2" regexp_match="ss" regexp_replace="s" case_conversion="startupper" /></suggestion>?</message>
-                <example correction="Human Resources">Er war hauptverantwortlich für den Bereich <marker>Human ressources</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>Human</token>
-                    <token regexp="yes">Ress?ourcen</token>
-                </pattern>
-                <message>Meinten Sie den englischen Begriff <suggestion>Human Resources</suggestion>?</message>
-                <example correction="Human Resources">Er war hauptverantwortlich für den Bereich <marker>Human Ressourcen</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MERZ_MÄRZ" name="März vs. Merz">
@@ -15930,6 +15900,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="STATISCHE_BUNDESAMT" name="Statisches (Statistisches) Bundesamt">
+            <pattern>
+                <token regexp="yes">statische[snm]?</token>
+                <token regexp="yes" inflected="yes">Bundesamt|Landesamt</token>
+            </pattern>
+            <message>Meinten Sie 'statistisch' (auf Statistik bezogen) statt 'statisch' (unverändert) ?</message>
+            <suggestion><match regexp_match="[Ss]tatisch" regexp_replace="Statistisch" no="1"/> \2</suggestion>
+            <url>https://de.wikipedia.org/wiki/Statistisches_Bundesamt</url>
+            <example correction="Statistische Bundesamt">Das <marker>Statische Bundesamt</marker> hat neue Zahlen veröffentlicht.</example>
+            <example correction="Statistischen Bundesamtes">Die neuen Zahlen des <marker>statischen Bundesamtes</marker> liegen vor.</example>
+        </rule>
         <rule id="MS_OFFICE" name="Ms (MS) Office">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">[mM]s</token>
@@ -16008,6 +15989,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie die Soße <suggestion>Sauce béarnaise</suggestion>? "béarnaise" wird hier kleingeschrieben.</message>
                 <url>https://de.wikipedia.org/wiki/Sauce_b%C3%A9arnaise</url>
                 <example correction="Sauce béarnaise">Zu Spargel esse ich am liebsten <marker>Soße Bernaise</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="CREME_BRULEE" name="Crème brûlée">
+            <antipattern case_sensitive="yes">
+                <token>Crème</token>
+                <token regexp="yes">br[uû]lées?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[kc]r[éèêe]m[éèêe]</token>
+                <token regexp="yes">br[úùuûü]ll?[éeèê]e?s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Crème brûlée<match no="2" regexp_match=".+?(s?)$" regexp_replace="$1" /></suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Cr%C3%A8me_br%C3%BBl%C3%A9e</url>
+            <example correction="Crème brûlées">Er aß viele <marker>Creme brulees</marker> bis ihm schlecht wurde.</example>
+        </rule>
+        <rule id="CREME_FRAICHE" name="Crème fraîche">
+            <antipattern case_sensitive="yes">
+                <token>Crème</token>
+                <token>fraîche</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[kc]r[éèêe]m[éèêe]</token>
+                <token regexp="yes">fr[eaä][iî]?s?che?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Crème fraîche</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Cr%C3%A8me_fra%C3%AEche</url>
+            <example correction="Crème fraîche">Er mag <marker>Creme fräche</marker>.</example>
+        </rule>
+        <rule id="CREME_LEGERE" name="Crème légère">
+            <antipattern case_sensitive="yes">
+                <token>Crème</token>
+                <token>légère</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[kc]r[éèêe]m[éèêe]</token>
+                <token regexp="yes">l[éèêe]g[éèêeä]r[éèêe]?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Crème légère</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Cr%C3%A8me_fra%C3%AEche</url>
+            <example correction="Crème légère">Er mag <marker>Creme legere</marker>.</example>
+        </rule>
+        <rule id="MOUSSE_AU_CHOCOLAT" name="Mousse au Chocolat">
+            <antipattern case_sensitive="yes">
+                <token>Mousse</token>
+                <token>au</token>
+                <token>Chocolat</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">M(ou|uo|u|o)ss[éèêe]|M(ou|uo)ss</token>
+                <token regexp="yes" min="0">o|a[uo]</token>
+                <token regexp="yes">S?cho[ck]ola[td]e?s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Mousse au Chocolat</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Mousse_au_Chocolat</url>
+            <example correction="Mousse au Chocolat">Als Dessert gab es <marker>Mousse au Chokolat</marker>.</example>
+        </rule>
+        <rulegroup id="HUMAN_RESOURCES" name="Ressource vs. Resource">
+            <url>https://de.wikipedia.org/wiki/Personalwesen</url>
+            <rule>
+                <pattern>
+                    <token>Human</token>
+                    <token regexp="yes">Ressources?</token>
+                </pattern>
+                <message>Meinten Sie den englischen Begriff <suggestion><match no="1" case_conversion="startupper" /> <match no="2" regexp_match="ss" regexp_replace="s" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Human Resources">Er war hauptverantwortlich für den Bereich <marker>Human ressources</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Human</token>
+                    <token regexp="yes">Ress?ourcen</token>
+                </pattern>
+                <message>Meinten Sie den englischen Begriff <suggestion>Human Resources</suggestion>?</message>
+                <example correction="Human Resources">Er war hauptverantwortlich für den Bereich <marker>Human Ressourcen</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="WARREN_BUFFETT" name="Warren Buffett">
@@ -16459,38 +16513,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Der Begriff <suggestion>Long Covid</suggestion> bzw. <suggestion>Long COVID</suggestion> wird ohne Bindestrich geschrieben.</message>
                 <url>https://www.duden.de/rechtschreibung/Long_Covid</url>
                 <example correction="Long Covid|Long COVID">Viele Coronaerkrankte leiden noch Wochen danach an <marker>Long-Covid</marker>.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="SOVIEL" name="so viel (soviel)">
-            <url>https://languagetool.org/insights/de/beitrag/soviel-so-viel</url>
-            <rule>
-                <antipattern>
-                    <token>soviel</token>
-                    <token skip="6">wie</token>
-                    <token regexp="yes">bedeute(t|n)|hei(ß|ss)(t|en)</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes" skip="1">bedeutet|hei(ß|ss)t</token>
-                    <token>soviel</token>
-                    <token>wie</token>
-                </antipattern>
-                <pattern>
-                    <marker><token>soviel</token></marker>
-                    <token>wie</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>so viel</suggestion>?</message>
-                <example correction="so viel">Er verdient <marker>soviel</marker> wie ich.</example>
-                <example>Der Name bedeutet soviel wie „Brunnen an der Esche“.</example>
-                <example>Einer Auffassung zufolge soll die erste Silbe aus dem mittelniederdeutschen „kurren, korren“ gebildet worden sein, was soviel wie das Murmeln eines Baches bedeutet.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker><token>soviel</token></marker>
-                    <token postag="PA2.+" postag_regexp="yes"></token>
-                </pattern>
-                <message>Meinten Sie <suggestion>so viel</suggestion>?</message>
-                <example correction="so viel">Er hat <marker>soviel</marker> gewonnen, dass er aufhören sollte.</example>
-                <example correction="so viel">Er hat schon <marker>soviel</marker> gesehen.</example>
             </rule>
         </rulegroup>
         <rule id="FRANK_WALTER_STEINMEIER" name="Frank-Walter Steinmeier">
@@ -18014,6 +18036,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="SOVIEL" name="so viel (soviel)">
+            <url>https://languagetool.org/insights/de/beitrag/soviel-so-viel</url>
+            <rule>
+                <antipattern>
+                    <token>soviel</token>
+                    <token skip="6">wie</token>
+                    <token regexp="yes">bedeute(t|n)|hei(ß|ss)(t|en)</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="1">bedeutet|hei(ß|ss)t</token>
+                    <token>soviel</token>
+                    <token>wie</token>
+                </antipattern>
+                <pattern>
+                    <marker><token>soviel</token></marker>
+                    <token>wie</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>so viel</suggestion>?</message>
+                <example correction="so viel">Er verdient <marker>soviel</marker> wie ich.</example>
+                <example>Der Name bedeutet soviel wie „Brunnen an der Esche“.</example>
+                <example>Einer Auffassung zufolge soll die erste Silbe aus dem mittelniederdeutschen „kurren, korren“ gebildet worden sein, was soviel wie das Murmeln eines Baches bedeutet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>soviel</token></marker>
+                    <token postag="PA2.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Meinten Sie <suggestion>so viel</suggestion>?</message>
+                <example correction="so viel">Er hat <marker>soviel</marker> gewonnen, dass er aufhören sollte.</example>
+                <example correction="so viel">Er hat schon <marker>soviel</marker> gesehen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DIN_A4" name="DinA4 (DIN A4)">
             <rule>
                 <pattern>
@@ -31482,7 +31536,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">lieb.*<exception>Lieber</exception><exception>Liebster</exception></token>
+                        <token regexp="yes">lieb.*<exception>Lieber</exception>
+                            <exception>Liebster</exception>
+                            <exception scope="next">Alex</exception>
+                        </token>
                     </marker>
                     <token postag="EIG:NOM:SIN:MAS:(.*)VOR" postag_regexp="yes"><exception postag="EIG:NOM:SIN:FEM:(.*)VOR" postag_regexp="yes"/></token>
                     <token>,</token>
@@ -31901,6 +31958,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="ANZEIGE_GEGEN_UNBEKANNT" name="Anzeige gegen Unbekannt (unbekannt)">
+            <pattern>
+                <token regexp="yes" skip="5">.*Anzeigen?|.*Ermittlung(en)?|.*Verfahrens?|Erkundung|Anklagen?|Klagen?|Urteils?</token>
+                <token>gegen</token>
+                <marker>
+                    <token case_sensitive="yes">Unbekannt</token>
+                </marker>
+            </pattern>
+            <message>In dieser Redewendung wird <suggestion><match no="3" case_conversion="alllower" /></suggestion> nach der neuen Rechtschreibung kleingeschrieben.</message>
+            <url>https://www.korrekturen.de/wortliste/anzeige_gegen_unbekannt.shtml</url>
+            <example correction="unbekannt">Er stellte Anzeige gegen <marker>Unbekannt</marker>.</example>
+        </rule>
         <rule id="ZUM_AEUSSERSTEN_GREIFEN" name="zum äußersten (Äußersten) greifen">
             <pattern>
                 <token regexp="yes">zum|dem</token>
@@ -61230,60 +61299,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Bei Nichtantreten einer Prüfung ist ein ärztliches Attest notwendig.</example>
             <example>Es geht um Verluste, die bei Nichterreichen von 0,5% wegfallen würden.</example>
         </rule>
-        <rule id="CREME_BRULEE" name="Crème brûlée">
-            <antipattern case_sensitive="yes">
-                <token>Crème</token>
-                <token regexp="yes">br[uû]lées?</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">[kc]r[éèêe]m[éèêe]</token>
-                <token regexp="yes">br[úùuûü]ll?[éeèê]e?s?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>Crème brûlée<match no="2" regexp_match=".+?(s?)$" regexp_replace="$1" /></suggestion>?</message>
-            <url>https://de.wikipedia.org/wiki/Cr%C3%A8me_br%C3%BBl%C3%A9e</url>
-            <example correction="Crème brûlées">Er aß viele <marker>Creme brulees</marker> bis ihm schlecht wurde.</example>
-        </rule>
-        <rule id="CREME_FRAICHE" name="Crème fraîche">
-            <antipattern case_sensitive="yes">
-                <token>Crème</token>
-                <token>fraîche</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">[kc]r[éèêe]m[éèêe]</token>
-                <token regexp="yes">fr[eaä][iî]?s?che?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>Crème fraîche</suggestion>?</message>
-            <url>https://de.wikipedia.org/wiki/Cr%C3%A8me_fra%C3%AEche</url>
-            <example correction="Crème fraîche">Er mag <marker>Creme fräche</marker>.</example>
-        </rule>
-        <rule id="CREME_LEGERE" name="Crème légère">
-            <antipattern case_sensitive="yes">
-                <token>Crème</token>
-                <token>légère</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">[kc]r[éèêe]m[éèêe]</token>
-                <token regexp="yes">l[éèêe]g[éèêeä]r[éèêe]?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>Crème légère</suggestion>?</message>
-            <url>https://de.wikipedia.org/wiki/Cr%C3%A8me_fra%C3%AEche</url>
-            <example correction="Crème légère">Er mag <marker>Creme legere</marker>.</example>
-        </rule>
-        <rule id="MOUSSE_AU_CHOCOLAT" name="Mousse au Chocolat">
-            <antipattern case_sensitive="yes">
-                <token>Mousse</token>
-                <token>au</token>
-                <token>Chocolat</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">M(ou|uo|u|o)ss[éèêe]|M(ou|uo)ss</token>
-                <token regexp="yes" min="0">o|a[uo]</token>
-                <token regexp="yes">S?cho[ck]ola[td]e?s?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>Mousse au Chocolat</suggestion>?</message>
-            <url>https://de.wikipedia.org/wiki/Mousse_au_Chocolat</url>
-            <example correction="Mousse au Chocolat">Als Dessert gab es <marker>Mousse au Chokolat</marker>.</example>
-        </rule>
         <rulegroup id="MITGLIEDERINNEN" name="Mitgliederinnen">
             <url>https://www.duden.de/sprachwissen/sprachratgeber/%E2%80%9ELiebe-Mit%C2%ADglieder%C2%ADinnen-und-Mit%C2%ADglieder%E2%80%9C-%E2%80%93-Personen%C2%AD%C2%ADbezeich%C2%ADnungen</url>
             <rule>
@@ -69248,6 +69263,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="HILFSVERB_HABEN_SEIN" name="falsches Hilfsverb für Perfekt (z.B. 'hat (ist) gegangen')">
             <rule>
+                    <antipattern>
+                    <token skip="-1" inflected="yes">haben</token>
+                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token>
+                    <token inflected="yes">erklären</token>
+                    <example>Jedenfalls hat keine Seite sie für gescheitert erklärt.</example>
+                </antipattern>
                 <antipattern>
                     <token skip="-1" inflected="yes">haben</token>
                     <token>den</token>
@@ -69314,7 +69335,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern><!-- confusion [bg]ekommen -->
                     <token postag="(PRO|ART).*AKK.*" postag_regexp="yes"/>
                     <token max="-1" chunk_re="I-NP.*"/>
-                    <token>gekommen</token>
+                    <token regexp="yes">(ab)?gekommen</token>
+                    <example>Der Ex-Polizist und Freund von Zehender hatte eine Kugel abgekommen.</example>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes" postag="V.*:[123]:.*" postag_regexp="yes" skip="6">haben</token>
@@ -69329,48 +69351,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">zu</token>
                     <marker>
                         <token inflected="yes" postag="V.*:[123]:.*" postag_regexp="yes" skip="6">haben
-                            <exception scope="next" regexp="yes">,|;|\(|\[|:|[–—-]|oder|und|sich|man</exception>
+                            <exception scope="next" regexp="yes">,|;|\(|\[|:|[–—-]|oder|und|sich|mir|dir|mich|dich|man</exception>
                             <exception scope="previous" postag=".*PA2.*" postag_regexp="yes"/>
                         </token>
-                        <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token><!-- TODO erweitern -->
                     </marker>
+                    <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht|gestorben|erschienen|verschwunden|gescheitert|entstanden|bestrebt)|(ein|auf)gefallen</token>
                 </pattern>
                 <message>&subanfang;eine Form des Hilfsverbs 'sein' verwendet werden muss.</message>
-                <suggestion><match no="2" postag="V.*[123].*" postag_regexp="yes" include_skipped="all">sein</match> \3</suggestion>
+                <suggestion><match no="2" postag="V.*[123].*" postag_regexp="yes">sein</match></suggestion>
                 <url>https://easy-deutsch.de/zeitformen/perfekt/#tab-con-4</url>
-                <example correction="ist gegangen">Sie <marker>hat gegangen</marker>.</example>
-                <example correction="ist gestern angekommen">Der Brief <marker>hat gestern angekommen</marker>.</example>
-                <example correction="sind heute angekommen">Die Gäste <marker>haben heute angekommen</marker>.</example>
-                <example correction="ist gestern Abend eingeschlafen">Sie <marker>hat gestern Abend eingeschlafen</marker>.</example>
-                <example correction="sei zwar davongekommen">Einer der Angreifer <marker>habe zwar davongekommen</marker> aber ein anderer wurde gefasst.</example>
-                <example correction="ist nicht auf Elba gestorben">Napoleon <marker>hat nicht auf Elba gestorben</marker>.</example>
-                <example correction="ist ein Geist erschienen">Mir <marker>hat ein Geist erschienen</marker>!</example>
-                <example correction="sind verschwunden">Meine Schlüssel <marker>haben verschwunden</marker>.</example>
-                <example correction="wäre kläglich gescheitert">Klaus <marker>hätte kläglich gescheitert</marker>.</example>
-                <example correction="sei von selbst entstanden">Diese Verschmutzung <marker>habe von selbst entstanden</marker>.</example>
-                <example correction="war immer bestrebt">Er <marker>hatte immer bestrebt</marker>, den Anforderungen gerecht zu werden.</example>
-                <example correction="wäre etwas Verrücktes eingefallen">Ich wünschte, mir <marker>hätte etwas Verrücktes eingefallen</marker>…</example>
-                <example correction="ist uns das nicht vorher aufgefallen">Warum <marker>hat uns das nicht vorher aufgefallen</marker>?</example>
-                <example correction="bin heute Abend angekommen">Ich <marker>habe heute Abend angekommen</marker>.</example>
-                <example>Sie <marker>ist gegangen</marker>.</example>
-                <example>Sie <marker>haben gesungen und sind eingeschlafen</marker>.</example>
-                <example>Er wäre dafür zu <marker>haben gewesen</marker>.</example>
+                <example correction="ist">Sie <marker>hat</marker> gegangen.</example>
+                <example correction="ist">Der Brief <marker>hat</marker> gestern angekommen.</example>
+                <example correction="sind">Die Gäste <marker>haben</marker> heute angekommen.</example>
+                <example correction="ist">Sie <marker>hat</marker> gestern Abend eingeschlafen.</example>
+                <example correction="sei">Einer der Angreifer <marker>habe</marker> zwar davongekommen, aber ein anderer wurde gefasst.</example>
+                <example correction="ist">Napoleon <marker>hat</marker> nicht auf Elba gestorben.</example>
+                <example correction="ist">Mir <marker>hat</marker> ein Geist erschienen!</example>
+                <example correction="sind">Meine Schlüssel <marker>haben</marker> verschwunden.</example>
+                <example correction="wäre">Klaus <marker>hätte</marker> kläglich gescheitert.</example>
+                <example correction="sei">Diese Verschmutzung <marker>habe</marker> von selbst entstanden.</example>
+                <example correction="war">Er <marker>hatte</marker> immer bestrebt, den Anforderungen gerecht zu werden.</example>
+                <example correction="wäre">Ich wünschte, mir <marker>hätte</marker> etwas Verrücktes eingefallen…</example>
+                <example correction="ist">Warum <marker>hat</marker> uns das nicht vorher aufgefallen?</example>
+                <example correction="bin">Ich <marker>habe</marker> heute Abend angekommen.</example>
+                <example>Sie <marker>ist</marker> gegangen.</example>
+                <example>Sie <marker>haben</marker> gesungen und sind eingeschlafen.</example>
+                <example>Er wäre dafür zu <marker>haben</marker> gewesen.</example>
                 <example>Sie haben der Westküste den Rang abgelaufen.</example>
                 <example>Fehlendes Komma + "dass": Ich hab da bisher auch nur Glück gehabt das nichts kaputtgegangen ist.</example>
                 <example>Einer der Angreifer habe ihn zwar verfolgt er sei aber davongekommen.</example>
                 <example>Der Witz dieser Seite hat sich totgelaufen.</example>
-                <example>Schade, dass sie dies nicht so klar gemacht <marker>hat wie es vielleicht nötig gewesen</marker> wäre.</example>
-                <example>Ich bin weniger als eine Woche nachdem ich angefangen <marker>habe in diese Corp gekommen</marker>.</example>
+                <example>Schade, dass sie dies nicht so klar gemacht hat wie es vielleicht nötig gewesen wäre.</example>
+                <example>Ich bin weniger als eine Woche nachdem ich angefangen habe in diese Corp gekommen.</example>
                 <example>Ich glaube, ich habe sie mir durchgelaufen.</example>
                 <example>Ihr habt euch müdegelaufen.</example>
-                <example>Nachdem ich das gesagt <marker>hatte bin ich durch die Tür gegangen</marker>.</example>
-                <example>Deutz, der Magirus 1935/36 übernommen <marker>hatte MAN — Maschinenfabrik Augsburg-Nürnberg Mandriva — Entstanden</marker> durch die Fusion der Linux-Distributoren.</example>
+                <example>Nachdem ich das gesagt hatte bin ich durch die Tür gegangen.</example>
+                <example>Deutz, der Magirus 1935/36 übernommen hatte MAN — Maschinenfabrik Augsburg-Nürnberg Mandriva — Entstanden durch die Fusion der Linux-Distributoren.</example>
                 <example>Das hat man in dem Gespräch schon mitgekommen.</example>
                 <example>Habe keine Zeit gehabt bin nicht dazu gekommen.</example>
                 <example>Sie haben bei uns Produkte gebucht die fällig geworden sind.</example>
                 <example>Was du da gesehen hast könnte auch ein Hund gewesen sein.</example>
                 <example>Somit hätte er in der Lage gewesen sein müssen, alle korrekt zu schreiben.</example>
                 <example>Das haben Sie beim Ausfüllen der vorangegangen Frage explizit erwähnt.</example>
+                <example>Ich habe mir Löcher in die Socken gelaufen.</example>
+                <example>Ich habe mich eine Runde warmgelaufen.</example>
+                <example>Jedenfalls hat keine Seite sie für gescheitert erklärt.</example>
             </rule>
            <!-- <rule>
                 <pattern>
@@ -77980,7 +78005,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">!|\?|,|;</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">([a-zäöü])|([0-9])|([0-9][0-9])</token>
+                    <token regexp="yes">[a-zäöü]|[0-9]|[0-9][0-9]|Phil</token>
                     <token>.</token>
                     <token regexp="yes">!|\?|,|;</token>
                 </antipattern>
@@ -79646,12 +79671,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="m.&nbsp;E.">Das ist <marker>m.E.</marker> schlecht.</example>
             </rule>
             <rule><!--6-->
-                <regexp case_sensitive='yes'>(B|M)\.A\.</regexp>
+                <antipattern>
+                    <token regexp="yes">[A-Z]</token>
+                    <token>.</token>
+                    <token regexp="yes">[BM]</token>
+                    <token>.</token>
+                    <token>A</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[BM]</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">A</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
                 <message>&glalong;</message>
                 <suggestion>\1.&nbsp;A.</suggestion>
                 <short>&gla;</short>
                 <example>Hans Müller, M.&nbsp;A.</example>
                 <example correction="M.&nbsp;A.">Hans Müller, <marker>M.A.</marker></example>
+                <example>M.B.A.</example>
+                <example>D.M.A.</example>
             </rule>
             <rule><!--7-->
                 <regexp case_sensitive='yes'>(z|Z)\.\s?(B|K|T|Zt|Hd?)\.</regexp>
@@ -79680,7 +79720,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="c.&nbsp;t.">Das Seminar beginnt um 16 Uhr <marker>c.t.</marker></example>
             </rule>
             <rule><!--10-->
-                <regexp>(u|o|i)\.\s?(ö|ä|a|dgl)\.</regexp>
+                <regexp>(u|o|i)\.\s?(ö|ä|Ä|a|dgl)\.</regexp>
                 <message>&glalong;</message>
                 <suggestion>\1.&nbsp;\2.</suggestion>
                 <short>&gla;</short>
@@ -79738,7 +79778,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <regexp case_sensitive='yes'>\bp\.\s?a\.</regexp>
                 <message>&glalong;</message>
                 <suggestion>p.&nbsp;a.</suggestion>
-                <url>https://de.wiktionary.org/wiki/p._a.</url>
                 <short>&gla;</short>
                 <example correction="p.&nbsp;a.">Hier gibt es eine Rendite von 2 % <marker>p.a.</marker></example>
             </rule>
@@ -79759,6 +79798,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&gla;</short>
                 <example>Dr.&nbsp;rer.&nbsp;pol. Hans Müller</example>
                 <example correction="Dr.&nbsp;rer.&nbsp;pol."><marker>Dr.rer.pol.</marker> Hans Müller</example>
+            </rule>
+            <rule><!--19-->
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">M|D|B</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">B|M|F</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">A</token>
+                    <token spacebefore="no">.</token>
+                    <example>Er macht gerade seinen M.B.A.</example>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">LL|M|Ph|D|J|B</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">B|M|Sc|D|F|Ed|Phil|Eng|Th</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Innerhalb von mehrteiligen Abkürzungen werden im Deutschen geschützte Leerzeichen gesetzt, auch wenn es sich dabei um aus dem Englischen entlehnte akademische Titel handelt.</message>
+                <suggestion>\1.&nbsp;\3.</suggestion>
+                <short>&gla;</short>
+                <example correction="LL.&nbsp;B.">Er macht gerade seinen <marker>LL.B.</marker></example>
+            </rule>
+            <rule><!--20-->
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">M|D|B</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">B|M|F</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">A</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Innerhalb von mehrteiligen Abkürzungen werden im Deutschen geschützte Leerzeichen gesetzt, auch wenn es sich dabei um aus dem Englischen entlehnte akademische Titel handelt.</message>
+                <suggestion>\1.&nbsp;\3.&nbsp;\5.</suggestion>
+                <short>&gla;</short>
+                <example correction="M.&nbsp;B.&nbsp;A.">Er macht gerade seinen <marker>M.B.A.</marker></example>
+                <example correction="B.&nbsp;F.&nbsp;A.">Er macht gerade seinen <marker>B.F.A.</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="PARAGRAF_LEERZEICHEN" name="Fehlendes geschütztes Leerzeichen nach '§'" tags="picky">
