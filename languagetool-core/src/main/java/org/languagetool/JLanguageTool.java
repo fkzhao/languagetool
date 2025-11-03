@@ -149,6 +149,14 @@ public class JLanguageTool {
 
   private static volatile boolean useCustomPasswordAuthenticator = true;
 
+  /**
+   * ThreadLocal to store the response locale for error messages and hints.
+   * This allows different threads to use different response languages independently.
+   * Defaults to English if not set.
+   * @since 6.7
+   */
+  private static final ThreadLocal<Locale> responseLocale = ThreadLocal.withInitial(() -> Locale.ENGLISH);
+
   private final List<Rule> builtinRules;
   private final List<Rule> userRules = new ArrayList<>(); // rules added via addRule() method
   // rules fetched via getRelevantLanguageModelCapableRules()
@@ -2194,6 +2202,40 @@ public class JLanguageTool {
 
   public void setConfigValues(Map<String, Object[]> v) {
     userConfig.insertConfigValues(v);
+  }
+
+  /**
+   * Sets the response locale for the current thread. This locale is used for
+   * error messages, hints, and other user-facing text in API responses.
+   *
+   * @param locale the locale to use for response messages (must not be null)
+   * @since 6.7
+   */
+  public static void setResponseLocale(Locale locale) {
+    if (locale == null) {
+      throw new IllegalArgumentException("Response locale cannot be null");
+    }
+    responseLocale.set(locale);
+  }
+
+  /**
+   * Gets the response locale for the current thread.
+   *
+   * @return the current response locale, defaults to English if not set
+   * @since 6.7
+   */
+  public static Locale getResponseLocale() {
+    return responseLocale.get();
+  }
+
+  /**
+   * Clears the response locale for the current thread, resetting it to English.
+   * Should be called after request processing to prevent memory leaks in thread pools.
+   *
+   * @since 6.7
+   */
+  public static void clearResponseLocale() {
+    responseLocale.remove();
   }
 
 }

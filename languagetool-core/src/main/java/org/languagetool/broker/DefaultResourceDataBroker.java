@@ -352,6 +352,23 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   @Override
   public ResourceBundle getResourceBundle(String baseName, Locale locale) {
-    return ResourceBundle.getBundle(baseName, Locale.CHINESE);
+    // Use the response locale from ThreadLocal ONLY for MessagesBundle (user-facing messages)
+    // For other resource bundles, use the provided locale parameter
+    Locale effectiveLocale;
+    if (baseName != null && baseName.equals("org.languagetool.MessagesBundle")) {
+      // For user-facing messages, use the ThreadLocal response locale
+      effectiveLocale = JLanguageTool.getResponseLocale();
+
+      // Use a custom control to bypass caching for dynamic locale switching
+      ResourceBundle.Control control = ResourceBundle.Control.getNoFallbackControl(
+          ResourceBundle.Control.FORMAT_DEFAULT
+      );
+      ResourceBundle bundle = ResourceBundle.getBundle(baseName, effectiveLocale, control);
+      return bundle;
+    } else {
+      // For other resources (rules, dictionaries, etc.), use the provided locale
+      effectiveLocale = locale;
+      return ResourceBundle.getBundle(baseName, effectiveLocale);
+    }
   }
 }

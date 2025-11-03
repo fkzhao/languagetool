@@ -239,11 +239,14 @@ abstract class TextChecker {
     }
 
     pipelinePool = new PipelinePool(config, cache, internalServer);
-    if (config.isPipelinePrewarmingEnabled()) {
+    // TEMPORARY FIX: Disable pipeline prewarming to allow rules to be initialized with correct locale
+    // This forces rules to be created when requests come in, after ThreadLocal is set
+    if (false && config.isPipelinePrewarmingEnabled()) {
       log.info("Prewarming pipelines...");
       prewarmPipelinePool();
       log.info("Prewarming finished.");
     }
+    log.info("Pipeline prewarming DISABLED to support dynamic response language");
     if (config.getAbTest() != null) {
       UserConfig.enableABTests();
       log.info("A/B-Test enabled: " + config.getAbTest());
@@ -258,6 +261,181 @@ abstract class TextChecker {
       return Languages.getLanguageForShortCode(code);
     } catch (IllegalArgumentException e) {
       throw new BadRequestException(e.getMessage());
+    }
+  }
+
+  /**
+   * Maps language code from 'lang' parameter to Java Locale for response messages.
+   * This controls the language of error messages, hints, and other text in API responses.
+   *
+   * @param langCode the language code from 'lang' parameter (may be null)
+   * @return the appropriate Locale for response messages, defaults to English if null or unrecognized
+   * @since 6.7
+   */
+  protected static Locale getResponseLocale(String langCode) {
+    if (langCode == null || langCode.trim().isEmpty()) {
+      return Locale.ENGLISH;
+    }
+
+    String normalized = langCode.toLowerCase().trim();
+
+    // Map language codes to Java Locale
+    switch (normalized) {
+      // Chinese
+      case "zh":
+      case "zh-cn":
+      case "cn":
+      case "zh_cn":
+        return Locale.CHINESE;
+
+      // English (default)
+      case "en":
+      case "en-us":
+      case "en-gb":
+      case "en_us":
+      case "en_gb":
+        return Locale.ENGLISH;
+
+      // German
+      case "de":
+      case "de-de":
+      case "de-at":
+      case "de-ch":
+      case "de_de":
+      case "de_at":
+      case "de_ch":
+        return Locale.GERMAN;
+
+      // French
+      case "fr":
+      case "fr-fr":
+      case "fr_fr":
+        return Locale.FRENCH;
+
+      // Italian
+      case "it":
+      case "it-it":
+      case "it_it":
+        return Locale.ITALIAN;
+
+      // Japanese
+      case "ja":
+      case "ja-jp":
+      case "ja_jp":
+      case "jp":
+        return Locale.JAPANESE;
+
+      // Korean
+      case "ko":
+      case "ko-kr":
+      case "ko_kr":
+      case "kr":
+        return Locale.KOREAN;
+
+      // Spanish
+      case "es":
+      case "es-es":
+      case "es_es":
+        return new Locale("es");
+
+      // Portuguese
+      case "pt":
+      case "pt-pt":
+      case "pt-br":
+      case "pt_pt":
+      case "pt_br":
+        return new Locale("pt");
+
+      // Russian
+      case "ru":
+      case "ru-ru":
+      case "ru_ru":
+        return new Locale("ru");
+
+      // Polish
+      case "pl":
+      case "pl-pl":
+      case "pl_pl":
+        return new Locale("pl");
+
+      // Dutch
+      case "nl":
+      case "nl-nl":
+      case "nl_nl":
+        return new Locale("nl");
+
+      // Catalan
+      case "ca":
+      case "ca-es":
+      case "ca_es":
+        return new Locale("ca");
+
+      // Danish
+      case "da":
+      case "da-dk":
+      case "da_dk":
+        return new Locale("da");
+
+      // Greek
+      case "el":
+      case "el-gr":
+      case "el_gr":
+        return new Locale("el");
+
+      // Ukrainian
+      case "uk":
+      case "uk-ua":
+      case "uk_ua":
+        return new Locale("uk");
+
+      // Romanian
+      case "ro":
+      case "ro-ro":
+      case "ro_ro":
+        return new Locale("ro");
+
+      // Swedish
+      case "sv":
+      case "sv-se":
+      case "sv_se":
+        return new Locale("sv");
+
+      // Slovak
+      case "sk":
+      case "sk-sk":
+      case "sk_sk":
+        return new Locale("sk");
+
+      // Slovenian
+      case "sl":
+      case "sl-si":
+      case "sl_si":
+        return new Locale("sl");
+
+      // Czech
+      case "cs":
+      case "cs-cz":
+      case "cs_cz":
+        return new Locale("cs");
+
+      // Other languages
+      case "be": return new Locale("be"); // Belarusian
+      case "is": return new Locale("is"); // Icelandic
+      case "lt": return new Locale("lt"); // Lithuanian
+      case "tl": return new Locale("tl"); // Tagalog
+      case "ta": return new Locale("ta"); // Tamil
+      case "km": return new Locale("km"); // Khmer
+      case "br": return new Locale("br"); // Breton
+      case "gl": return new Locale("gl"); // Galician
+      case "eo": return new Locale("eo"); // Esperanto
+      case "ar": return new Locale("ar"); // Arabic
+      case "fa": return new Locale("fa"); // Persian
+      case "ast": return new Locale("ast"); // Asturian
+      case "ga": return new Locale("ga"); // Irish
+
+      default:
+        log.debug("Unrecognized language code for response messages: '{}', defaulting to English", langCode);
+        return Locale.ENGLISH;
     }
   }
 
@@ -502,6 +680,22 @@ abstract class TextChecker {
       params.getOrDefault("ld", "control").equalsIgnoreCase("test")));
     Language lang = detLang.getGivenLanguage();
 
+    // Set the response locale for error messages and hints based on 'lang' parameter
+    // This controls the language of user-facing text in the API response
+    String langParam = params.get("lang");
+    Locale responseLocale = getResponseLocale(langParam);
+
+    try {
+      JLanguageTool.setResponseLocale(responseLocale);
+      System.out.flush(); // Ensure logs are written
+      log.info("Setting response locale to: {} for lang parameter: {}", responseLocale, langParam);
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+      throw e;
+    }
+
+    try {
+      // Process request with the set response locale
     List<Rule> userRules = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetUserRules", Attributes.empty(), () -> getUserRules(limits, lang, finalDictGroups));
     String ltAgent = params.getOrDefault("useragent", "unknown");
     Pattern trustedSourcesPattern = config.getTrustedSources();
@@ -619,9 +813,17 @@ abstract class TextChecker {
 
     int textSize = length;
     List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
+
+    // CRITICAL: Capture the response locale to propagate it to the executor thread
+    // ThreadLocal values don't automatically transfer to new threads
+    final Locale capturedResponseLocale = JLanguageTool.getResponseLocale();
+
     Future<List<CheckResults>> future;
     try {
       future = executorService.submit(() -> {
+        // Set the response locale in the executor thread
+        JLanguageTool.setResponseLocale(capturedResponseLocale);
+
         try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))) {
           log.debug("Starting text check on {} chars; params: {}", length, qParams);
           long time = System.currentTimeMillis();
@@ -632,6 +834,10 @@ abstract class TextChecker {
           results.stream().flatMap(r -> r.getRuleMatches().stream()).forEach(RuleMatch::computeLazySuggestedReplacements);
           log.debug("Finished suggestion generation in {}ms, returning results.", System.currentTimeMillis() - time);
           return results;
+        } finally {
+          // Clean up ThreadLocal in executor thread
+          JLanguageTool.clearResponseLocale();
+          System.out.println("[DEBUG] Cleared response locale in executor thread: " + Thread.currentThread().getName());
         }
       });
     } catch (RejectedExecutionException e) {
@@ -832,6 +1038,10 @@ abstract class TextChecker {
           }
         }
       }
+    }
+    } finally {
+      // Clean up ThreadLocal to prevent memory leaks in thread pool
+      JLanguageTool.clearResponseLocale();
     }
   }
 
