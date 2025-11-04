@@ -55,6 +55,7 @@ public class AvsAnRule extends Rule {
   private static final Pattern anExceptionPrefixes = compile("^(eu|one|uni|u[rst][aeiou])[a-z]*$", Pattern.CASE_INSENSITIVE);
 
   public AvsAnRule(ResourceBundle messages) {
+    super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     setUrl(Tools.getUrl("https://languagetool.org/insights/post/indefinite-articles/"));
@@ -111,7 +112,8 @@ public class AvsAnRule extends Rule {
         if (msg != null) {
           RuleMatch match = new RuleMatch(
               this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(),
-                  tokens[prevTokenIndex].getStartPos(), token.getEndPos(), msg, "Wrong article");
+                  tokens[prevTokenIndex].getStartPos(), token.getEndPos(), msg,
+                  messages.getString("short_msg_wrong_article"));
           ruleMatches.add(match);
         }
       }

@@ -137,7 +137,8 @@ public class SimpleReplaceRenamedRule extends Rule {
 
   private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements, String msg, String info, AnalyzedSentence sentence) {
     msg = getMessage(msg, info);
-    RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg, "Перейменована назва");
+    RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg,
+        messages.getString("short_msg_renamed_name"));
     potentialRuleMatch.setSuggestedReplacements(replacements);
     if( info.contains("декомуніз") ) {
       potentialRuleMatch.setUrl(DECOMUNIZATION_URL);

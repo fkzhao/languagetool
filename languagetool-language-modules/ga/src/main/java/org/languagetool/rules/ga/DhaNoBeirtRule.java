@@ -32,6 +32,7 @@ import static org.languagetool.rules.ga.DhaNoBeirtData.getDaoine;
 
 public class DhaNoBeirtRule extends Rule {
   public DhaNoBeirtRule(ResourceBundle messages) {
+    super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("Tá <marker>dhá</marker> dheartháireacha agam."),
@@ -65,11 +66,13 @@ public class DhaNoBeirtRule extends Rule {
               replacement = "dháréag";
               msg = "Ba chóir duit <suggestion>" + replacement + "</suggestion> a scríobh";
               RuleMatch match = new RuleMatch(
-                this, sentence, tokens[prevTokenIndex+1].getStartPos(), tokens[prevTokenIndex+1].getEndPos(), msg, "Uimhir phearsanta");
+                this, sentence, tokens[prevTokenIndex+1].getStartPos(), tokens[prevTokenIndex+1].getEndPos(), msg,
+                messages.getString("short_msg_personal_number"));
               ruleMatches.add(match);
               msg = "Ba chóir duit \"déag\" a scriosadh.";
               RuleMatch match2 = new RuleMatch(
-                this, sentence, tokens[markDeag].getStartPos(), tokens[markDeag].getEndPos(), msg, "Uimhir phearsanta");
+                this, sentence, tokens[markDeag].getStartPos(), tokens[markDeag].getEndPos(), msg,
+                messages.getString("short_msg_personal_number"));
               ruleMatches.add(match2);
               msg = null;
             }
@@ -84,7 +87,8 @@ public class DhaNoBeirtRule extends Rule {
       }
       if (msg != null) {
         RuleMatch match = new RuleMatch(
-          this, sentence, tokens[prevTokenIndex+1].getStartPos(), tokens[prevTokenIndex+1 ].getEndPos(), msg, "Uimhir phearsanta");
+          this, sentence, tokens[prevTokenIndex+1].getStartPos(), tokens[prevTokenIndex+1 ].getEndPos(), msg,
+          messages.getString("short_msg_personal_number"));
         ruleMatches.add(match);
         msg = null;
       }

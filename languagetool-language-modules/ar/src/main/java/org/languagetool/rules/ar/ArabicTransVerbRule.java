@@ -127,7 +127,8 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
             " متعد بحرف  .";
           RuleMatch match = new RuleMatch(
             this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(),
-            tokens[prevTokenIndex].getStartPos(), token.getEndPos(), msg, "خطأ في الفعل المتعدي بحرف");
+            tokens[prevTokenIndex].getStartPos(), token.getEndPos(), msg,
+            messages.getString("short_msg_transitive_verb_error"));
           ruleMatches.add(match);
         }
       }

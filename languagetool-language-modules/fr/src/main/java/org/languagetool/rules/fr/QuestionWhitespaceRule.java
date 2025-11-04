@@ -91,6 +91,7 @@ public class QuestionWhitespaceRule extends Rule {
   }
 
   public QuestionWhitespaceRule(ResourceBundle messages, Language language) {
+    super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
     antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);
   }
@@ -188,7 +189,8 @@ public class QuestionWhitespaceRule extends Rule {
       if (msg != null) {
         int fromPos = tokens[iFrom].getStartPos();
         int toPos = tokens[iTo].getEndPos();
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg, "Insérer une espace insécable");
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg,
+            messages.getString("short_msg_insert_non_breaking_space"));
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }

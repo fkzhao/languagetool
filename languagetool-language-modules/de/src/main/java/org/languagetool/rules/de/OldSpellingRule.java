@@ -63,6 +63,7 @@ public class OldSpellingRule extends Rule {
   private final Language language;
 
   public OldSpellingRule(ResourceBundle messages, Language language) {
+    super(messages);
     this.language = language;
     setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
@@ -111,7 +112,8 @@ public class OldSpellingRule extends Rule {
 
   private void addMatch(AnalyzedSentence sentence, AhoCorasickDoubleArrayTrie.Hit<String> hit, List<RuleMatch> matches) {
     String message = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
-    RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, message, "Alte Rechtschreibung");
+    RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, message,
+        messages.getString("short_msg_old_spelling"));
     String[] suggestions = hit.value.split("\\|");
     match.setSuggestedReplacements(Arrays.asList(suggestions));
     String covered = sentence.getText().substring(hit.begin, hit.end);

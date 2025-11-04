@@ -128,7 +128,8 @@ public class ArabicInflectedOneWordReplaceRule extends AbstractSimpleReplaceRule
           String msg = "' الكلمة خاطئة " + token.getToken() + " ' ،" + sugMsg + ". استعمل  " + replacement;
           RuleMatch match = new RuleMatch(
             this, sentence, token.getStartPos(), token.getEndPos(),
-            token.getStartPos(), token.getEndPos(), msg, "خطأ في استعمال كلمة:" + sugMsg);
+            token.getStartPos(), token.getEndPos(), msg,
+            java.text.MessageFormat.format(messages.getString("short_msg_word_usage_error"), sugMsg));
           ruleMatches.add(match);
         }
       } // end wordTok

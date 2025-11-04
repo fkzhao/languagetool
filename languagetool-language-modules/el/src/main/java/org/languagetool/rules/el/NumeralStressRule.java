@@ -123,7 +123,7 @@ public class NumeralStressRule extends Rule {
           String suggestion = number + suffix;
           String msg = "<suggestion>" + suggestion + "</suggestion>";
           RuleMatch match = new RuleMatch(this, sentence, token.getStartPos(),
-                  token.getEndPos(), msg, "Πρόβλημα ορθογραφίας");
+                  token.getEndPos(), msg, messages.getString("short_msg_spelling_problem"));
           ruleMatches.add(match);
         }
       }
