@@ -229,13 +229,14 @@ public class SymSpellRule extends SpellingCheckRule {
       }
       List<SuggestedReplacement> candidates = SuggestedReplacement.convert(filterCandidates(getSpellerMatches(word, defaultDictSpeller)));
       List<SuggestedReplacement> userCandidates = SuggestedReplacement.convert(getSpellerMatches(word, userDictSpeller));
-      // TODO: messages
       RuleMatch match = null;
       if (candidates.isEmpty() && userCandidates.isEmpty()) {
-        match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling or unknown word!");
+        match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(),
+            messages.getString("msg_spelling_misspelling_or_unknown"));
       } else if (!(candidates.size() > 0 && candidates.get(0).getReplacement().equals(word) ||
         userCandidates.size() > 0 && userCandidates.get(0).getReplacement().equals(word))) {
-        match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling!");
+        match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(),
+            messages.getString("msg_spelling_misspelling"));
 
         addSuggestionsToRuleMatch(token.getToken(), userCandidates, candidates, orderer, match);
       }
