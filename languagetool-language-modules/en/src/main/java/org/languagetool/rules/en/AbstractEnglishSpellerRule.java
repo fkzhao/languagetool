@@ -445,14 +445,16 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       // so 'word' is misspelled:
       IrregularForms forms = getIrregularFormsOrNull(word);
       if (forms != null) {
-        String message = "Possible spelling mistake. Did you mean <suggestion>" + forms.forms.get(0) +
-                "</suggestion>, the " + forms.formName + " form of the " + forms.posName +
-                " '" + forms.baseform + "'?";
+        String message = java.text.MessageFormat.format(
+                messages.getString("msg_spelling_irregular_verb_form"),
+                forms.forms.get(0), forms.formName, forms.posName, forms.baseform);
         addFormsToFirstMatch(message, sentence, ruleMatches, forms.forms);
       } else {
         VariantInfo variantInfo = isValidInOtherVariant(word);
         if (variantInfo != null) {
-          String message = "Possible spelling mistake. '" + word + "' is " + variantInfo.getVariantName() + ".";
+          String message = java.text.MessageFormat.format(
+                  messages.getString("msg_spelling_variant"),
+                  word, variantInfo.getVariantName());
           String suggestion = StringTools.startsWithUppercase(word) ?
               StringTools.uppercaseFirstChar(variantInfo.otherVariant()) : variantInfo.otherVariant();
           replaceFormsOfFirstMatch(message, sentence, ruleMatches, suggestion);
