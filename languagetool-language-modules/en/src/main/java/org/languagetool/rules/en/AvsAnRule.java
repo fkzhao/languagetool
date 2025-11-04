@@ -70,7 +70,7 @@ public class AvsAnRule extends Rule {
 
   @Override
   public String getDescription() {
-    return "Use of 'a' vs. 'an'";
+    return messages.getString("desc_a_vs_an");
   }
 
   @Override

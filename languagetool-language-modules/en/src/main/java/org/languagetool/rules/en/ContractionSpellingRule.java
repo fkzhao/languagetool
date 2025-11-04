@@ -63,7 +63,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getDescription() {
-    return "Spelling of English contractions";
+    return messages.getString("desc_contraction_spelling");
   }
 
   @Override
