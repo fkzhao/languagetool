@@ -54,7 +54,7 @@ public class WhiteSpaceAtBeginOfParagraph extends Rule {
 
   @Override
   public String getDescription() {
-    return messages.getString("whitespace_at_begin_parapgraph_desc");
+    return messages.getString("whitespace_at_begin_paragraph_desc");
   }
 
   private boolean isWhitespaceDel (AnalyzedTokenReadings token) {
@@ -71,7 +71,7 @@ public class WhiteSpaceAtBeginOfParagraph extends Rule {
     for (i = 1; i < tokens.length && isWhitespaceDel(tokens[i]); i++);
     if (i > 1 && i < tokens.length && !tokens[i].isLinebreak()) {
       RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[1].getStartPos(),
-              tokens[i].getEndPos(), messages.getString("whitespace_at_begin_parapgraph_msg"));
+              tokens[i].getEndPos(), messages.getString("whitespace_at_begin_paragraph_msg"));
       ruleMatch.setSuggestedReplacement(tokens[i].getToken());
       ruleMatches.add(ruleMatch);
     }

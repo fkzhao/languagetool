@@ -58,7 +58,7 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
 
   @Override
   public String getDescription() {
-    return messages.getString("whitespace_before_parapgraph_end_desc");
+    return messages.getString("whitespace_before_paragraph_end_desc");
   }
   
   @Override
@@ -76,7 +76,7 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
         if(lw < lb) {
           int fromPos = tokens[lw].isWhitespace() ? pos + tokens[lw + 1].getStartPos() : pos + tokens[lw].getStartPos();
           int toPos = pos + tokens[lb].getEndPos();
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, messages.getString("whitespace_before_parapgraph_end_msg"));
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, messages.getString("whitespace_before_paragraph_end_msg"));
           if (lw > 0 && !tokens[lw].isWhitespace()) {
             ruleMatch.setSuggestedReplacement(tokens[lw].getToken());
           } else {
